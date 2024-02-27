@@ -1,0 +1,178 @@
+﻿@model List<test_application.Models.Employee>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Employee Deductions</h2>
+<title>Dynamic Table</title>
+<title>Dynamic Table</title>
+<style>
+    table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    th, td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+    }
+
+    th {
+        background-color: #f2f2f2;
+    }
+
+    button {
+        margin-top: 10px;
+    }
+
+    th {
+        vertical-align: middle !important;
+        text-align: center !important;
+    }
+</style>
+
+
+<table id="dynamic-table">
+    <thead>
+        <tr>
+            <th>Employee</th>
+            <th>Basic Salary</th>
+        </tr>
+        
+    </thead>
+    <tbody>
+        @for (int x = 1; x <= 5; x++)
+        {
+            <tr>
+                <td>
+                   Employee @x
+                </td>
+                <td>20000</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addColumnModal">Add Column</button>
+
+<!-- Modal -->
+<div class="modal fade" id="addColumnModal" tabindex="-1" role="dialog" aria-labelledby="addColumnModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addColumnModalLabel">Add Column</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="columnName">Column Name:</label>
+                    <input type="text" class="form-control" id="columnName">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="addColumn()"  data-dismiss="modal">Add Column</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th rowspan="3" class="text-md-center">EMPLOYEE ID</th>
+            <th rowspan="3">NAME</th>
+            <th colspan="4">COMPENSATIONS</th>
+            <th colspan="6">MANADATORY DEDUCTIONS</th>
+            <th rowspan="3">NET PAY</th>
+        </tr>
+        <tr>
+            <th rowspan="2">BASIC</th>
+            <th rowspan="2">RATA</th>
+            <th rowspan="2">PERA</th>
+            <th rowspan="2">GROSS PAY</th>
+            <th colspan="2">GSIS</th>
+            <th colspan="2">PAG-IBIG</th>
+            <th colspan="2">PHILHEALTH</th>
+
+        </tr>
+        <tr>
+            <th>EE</th>
+            <th>ER</th>
+            <th>EE</th>
+            <th>ER</th>
+            <th>EE</th>
+            <th>ER</th>
+           
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>001</td>
+            <td>John Doe</td>
+            <td>$3000</td>
+            <td>$3500</td>
+            <td>$200</td>
+            <td>$100</td>
+            <td>$3200</td>
+            <td>$100</td>
+            <td>$3200</td>
+            <td>$100</td>
+            <td>$3200</td>
+            <td>$100</td>
+           
+            <td>$3200</td>
+
+        </tr>
+        <tr>
+            <td>002</td>
+            <td>Jane Smith</td>
+            <td>$3200</td>
+            <td>$3800</td>
+            <td>$250</td>
+            <td>$120</td>
+            <td>$3430</td>
+            <td>$100</td>
+            <td>$3200</td>
+            <td>$100</td>
+            <td>$3200</td>
+            <td>$100</td>
+         
+            <td>$3200</td>
+        </tr>
+    </tbody>
+</table>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+    function addColumn() {
+        var columnName = document.getElementById("columnName").value;
+        if (!columnName) {
+            alert("Please enter column name");
+            return;
+        }
+
+        var table = document.getElementById("dynamic-table");
+        var headerRow = table.getElementsByTagName('thead')[0].getElementsByTagName('tr')[0];
+        var bodyRows = table.getElementsByTagName('tbody')[0].getElementsByTagName('tr');
+
+        var newHeaderCell = document.createElement('th');
+        var headerText = document.createTextNode(columnName);
+        newHeaderCell.appendChild(headerText);
+        headerRow.appendChild(newHeaderCell);
+
+        for (var i = 0; i < bodyRows.length; i++) {
+            var newCell = bodyRows[i].insertCell(-1);
+            var cellText = document.createTextNode('Data ' + (bodyRows[i].cells.length));
+            newCell.appendChild(cellText);
+        }
+
+        $('#addColumnModal').modal('hide');
+    }
+</script>
